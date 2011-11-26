@@ -25,7 +25,7 @@ has url => (
 sub shorten {
     my $self = shift;
 
-    return $self->url;
+    return $self->url->canonical;
 }
 
 sub unshorten {
@@ -63,11 +63,13 @@ sub _url {
 }
 
 sub _into_url {
-    my $uri = uf_uri $_[0];
+    my $uri = uf_uri($_[0]);
 
-    # uf_uri percent encodes URIs that have no scheme and start with a unicode
-    # character and doesn't add the default http scheme
-    if (URI::eq($uri, $_[0]) && !$uri->scheme) {
+    # If the heuristic doesn't provide a good guess to the scheme
+    # Just blast it to http. Useful because the heuristic doesn't
+    # add a scheme to URLs that start with a non-ASCII character
+    # so some URL shorteners would never work without forcing http.
+    if (!$uri->scheme) {
         return uf_uri('http://' . $_[0]);
     }
 
