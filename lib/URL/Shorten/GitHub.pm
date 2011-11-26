@@ -1,9 +1,26 @@
 package URL::Shorten::GitHub;
 
 # ABSTRACT: Shorten GitHub URLs using GitHub's URL shortener - git.io
+use common::sense;
+use utf8;
+use Moo;
 
-use strict;
-use warnings;
+use Carp;
+
+extends 'URL::Shorten';
+
+
+
+
+sub shorten {
+    my $self = shift;
+
+    if ($self->url->host !~ m{\.github\.com$} && $self->url->host !~ m{^github\.com$}) {
+        carp 'GitHub only shortens *.github.com URLs. You tried to shorten: ' . $self->url->host;
+    }
+
+    return $self->url->canonical;
+}
 
 
 
