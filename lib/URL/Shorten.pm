@@ -6,13 +6,15 @@ use common::sense;
 use utf8;
 use Moo;
 
+use LWP;
 use URI;
 use URI::Heuristic qw(uf_uri);
 
 use Carp;
 
-use Exporter 'import';
+use Exporter;
 our @EXPORT_OK = qw(makeashorterlink makealongerlink);
+our $VERSION = '0.1.0';
 
 
 has url => (
@@ -21,22 +23,40 @@ has url => (
     isa    => \&_url,
 );
 
+has ua => (
+    is      => 'ro',
+    default => \&_ua,
+);
 
-sub shorten {
-    my $self = shift;
+has response => (
+    is => 'rw',
+);
 
-    return $self->url->canonical;
-}
+
+# Stubs, use the subclasses directly (until later anyway)
+sub shorten   { return shift->url; }
+
+
+
 
 sub unshorten {
     my $self = shift;
+
+    $self->response(
+        $self->ua->get($self->url->as_string)
+    );
+
+    if ($self->response->is_redirect) {
+        return $self->response->header('Location');
+    }
+
+    return $self->url;
 }
 
 
 
 
-
-
+# Aliases for compatiblity with WWW::Shorten
 sub makeashorterlink {
     return URL::Shorten->new({
         url => shift,
@@ -50,6 +70,19 @@ sub makealongerlink {
 }
 
 
+
+# Provides the LWP::UserAgent object everywhere.
+sub _ua {
+    return LWP::UserAgent->new(
+        env_proxy   => 1,
+        timeout     => 30,
+        agent       => __PACKAGE__ . "/" . __PACKAGE__->VERSION(),
+        requests_redirectable => [],
+    );
+}
+
+
+# Checks we have a valid URL after coercion
 sub _url {
     my $uri = shift || croak 'No URL specified';
 
@@ -59,9 +92,11 @@ sub _url {
         croak "URL provided doesn't appear valid. Was given: $uri";
     }
 
-    return $uri->canonical;
+    return $uri;
 }
 
+
+# Coerces input into a url. Also does punycode conversion for IDN support
 sub _into_url {
     my $uri = uf_uri($_[0]);
 
@@ -73,7 +108,7 @@ sub _into_url {
         return uf_uri('http://' . $_[0]);
     }
 
-    return $uri;
+    return $uri->canonical;
 }
 
 
