@@ -47,6 +47,7 @@ sub unshorten {
         $self->ua->get($self->url->as_string)
     );
 
+    # TODO: the redirect can be relative. Get a Base URL from somewhere
     if ($self->response->is_redirect) {
         return $self->response->header('Location');
     }

@@ -40,18 +40,16 @@ my @urls = (
 );
 
 
-for my $url (@urls) {
-   my $short = URL::Shorten::GitHub->new();
-   $short->url($url);
+for my $original (@urls) {
+    my $url = URL::Shorten::GitHub->new();
+    $url->url($original);
 
-    # say 'Original: ' . $url;
-    # say 'OldSkool: ' . makeashorterlink($url);
-    say 'NewSkool: ' . $short->unshorten;
-    
-    # my %hash = ( unshortened => $short->unshorten, );
-    
-    # say $hash{unshortened};
-    
+    my $short = $url->shorten;
+    my $long  = $url->unshorten;
+
+    say 'Original: ' . $original;
+    say 'Short:    ' . $short;
+    say 'Long:     ' . $long;
     say '----';
 }
 
