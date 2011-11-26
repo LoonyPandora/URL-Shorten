@@ -8,7 +8,7 @@ use Moo;
 
 use Carp;
 
-extends 'URL::Shorten';
+with 'URL::Shorten';
 
 
 sub shorten {

@@ -15,6 +15,7 @@ use utf8;
 #   URLs with no scheme, and a port number (doesn't work, can't fix due to ambiguous nature of that construct)
 
 my @urls = (
+    'http://➡.ws/abcb',
     'git.io/help',
     'https://github.com/blog/985-git-io-github-url-shortener',
     'http://www.google.com/asdf?quest=asdf#sdfsad',
@@ -43,9 +44,14 @@ for my $url (@urls) {
    my $short = URL::Shorten::GitHub->new();
    $short->url($url);
 
-#    say 'Original: ' . $url;
+    # say 'Original: ' . $url;
     # say 'OldSkool: ' . makeashorterlink($url);
     say 'NewSkool: ' . $short->unshorten;
+    
+    # my %hash = ( unshortened => $short->unshorten, );
+    
+    # say $hash{unshortened};
+    
     say '----';
 }
 

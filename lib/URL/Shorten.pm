@@ -4,7 +4,7 @@ package URL::Shorten;
 
 use common::sense;
 use utf8;
-use Moo;
+use Moo::Role;
 
 use LWP;
 use URI;
@@ -13,6 +13,7 @@ use URI::Heuristic qw(uf_uri);
 use Carp;
 
 use Exporter;
+
 our @EXPORT_OK = qw(makeashorterlink makealongerlink);
 our $VERSION = '0.1.0';
 
@@ -33,8 +34,8 @@ has response => (
 );
 
 
-# Stubs, use the subclasses directly (until later anyway)
-sub shorten   { return shift->url; }
+
+sub shorten { croak 'Use the subclass directly.'; }
 
 
 
