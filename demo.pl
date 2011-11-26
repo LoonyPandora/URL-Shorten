@@ -4,10 +4,15 @@ use common::sense;
 use lib 'lib';
 
 use URL::Shorten qw(makeashorterlink);
+use URL::Shorten::GitHub;
 use utf8;
 
 # TEST WITH: http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_country_code_top-level_domains
 
+# Known Issues:
+#   URLs with no scheme, that start with a unicode character (WORKAROUND)
+#   URLs with no scheme, and a user:pass@example.com (doesn't work, can't fix due to ambiguous nature of that construct)
+#   URLs with no scheme, and a port number (doesn't work, can't fix due to ambiguous nature of that construct)
 
 my @urls = (
     'http://www.google.com/asdf?quest=asdf#sdfsad',
@@ -18,22 +23,26 @@ my @urls = (
     '例子.測試/首頁',
     '例子.測試',
     'www.google.com/asdf?quest=asdf#sdfsad',
-    'user:pass@www.google.com/asdf?quest=asdf#sdfsad',
+    'http://user:pass@www.google.com/asdf?quest=asdf#sdfsad',
+    # 'user:pass@www.google.com/asdf?quest=asdf#sdfsad',        # Known issue, skip it
     'https://user:pass@www.google.com/asdf?quest=asdf#sdfsad',
     'http://www.google.com:999/asdf?quest=asdf#sdfsad',
     'www.google.com:999/asdf?quest=asdf#sdfsad',
     'https://metacpan.org/module/Moo::Role',
     'apple',
-    'apple.com:80',
+    # 'apple.com:80', # Known issue, skip it
+    'http://www.github.com',
+    'http://github.com',
+    'ftp://ftp.apple.com',
 );
 
 
 for my $url (@urls) {
-   my $short = URL::Shorten->new();
+   my $short = URL::Shorten::GitHub->new();
    $short->url($url);
 
-    say 'Original: ' . $url;
-    say 'OldSkool: ' . makeashorterlink($url);
+ #   say 'Original: ' . $url;
+  #  say 'OldSkool: ' . makeashorterlink($url);
     say 'NewSkool: ' . $short->shorten;
 
     say '----';
