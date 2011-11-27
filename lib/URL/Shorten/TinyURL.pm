@@ -1,6 +1,6 @@
 package URL::Shorten::TinyURL;
 
-# ABSTRACT: Shorten GitHub URLs using GitHub's URL shortener - git.io
+# ABSTRACT: Shorten URLs using TinyURL
 
 use utf8;
 use strict;
@@ -20,7 +20,7 @@ sub shorten {
         })
     );
 
-    if ($self->response->is_success && $self->response->content !~ /^Error$/) {
+    if ($self->response->is_success && $self->response->content !~ /^Error/) {
         return $self->response->content;
     }
 
