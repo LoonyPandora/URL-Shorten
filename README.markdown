@@ -7,9 +7,10 @@ Minimum required for launch:
 
 - Bit.ly
 - Goo.gl
-- Git.io
-- Tiny Arrows (to show unicode support)
-- TinyURL
+- Metamark (xrl.us)
+- Git.io (DONE)
+- Tiny Arrows (DONE)
+- TinyURL (DONE)
 
 Should be there for launch (require API key methods)
 
@@ -33,6 +34,5 @@ And the following Un-shorten only
 - ✪df.ws
 - t.co
 - youtu.be
-- instagr.am
 - fb.me
 - wp.me
