@@ -2,10 +2,10 @@ package URL::Shorten::GitHub;
 
 # ABSTRACT: Shorten GitHub URLs using GitHub's URL shortener - git.io
 
-use common::sense;
 use utf8;
-use Moo;
+use strict;
 
+use Moo;
 use Carp;
 
 with 'URL::Shorten';
