@@ -2,8 +2,8 @@ package URL::Shorten;
 
 # ABSTRACT: Shorten URLs using many URL shorteners
 
-use common::sense;
 use utf8;
+use strict;
 use Moo::Role;
 
 use LWP;
@@ -91,7 +91,7 @@ sub _url {
     # Coerce gives everything a scheme,
     # but to be a sane URL we need more than just a scheme
     if (!$uri->scheme || !$uri->opaque) {
-        croak "URL provided doesn't appear valid. Was given: $uri";
+        croak "URL provided doesn't appear valid. Given: $uri";
     }
 
     return $uri;
