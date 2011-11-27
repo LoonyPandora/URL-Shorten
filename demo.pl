@@ -5,6 +5,10 @@ use lib 'lib';
 
 use URL::Shorten qw(makeashorterlink);
 use URL::Shorten::GitHub;
+use URL::Shorten::TinyURL;
+use URL::Shorten::TinyArrows;
+use URL::Shorten::Metamark;
+use URL::Shorten::Google;
 use utf8;
 
 # TEST WITH: http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_country_code_top-level_domains
@@ -15,14 +19,14 @@ use utf8;
 #   URLs with no scheme, and a port number (doesn't work, can't fix due to ambiguous nature of that construct)
 
 my @urls = (
-    'http://➡.ws/abcb',
+    'http://例子.測試/首頁',
     'git.io/help',
+    'http://fb.me/1rdYzVLbl',
     'https://github.com/blog/985-git-io-github-url-shortener',
     'http://www.google.com/asdf?quest=asdf#sdfsad',
     'http://✪df.ws',
     '✪df.ws',
     'müller.example.org',
-    'http://例子.測試/首頁',
     '例子.測試/首頁',
     '例子.測試',
     'www.google.com/asdf?quest=asdf#sdfsad',
@@ -37,11 +41,15 @@ my @urls = (
     'http://www.github.com',
     'http://github.com',
     'ftp://ftp.apple.com',
+    'http://daringfireball.net/markdown',
+    'http://t.co/gm8daj3D',
+    'http://➡.ws/abcb',
+    'http://➡.ws/뒑ፊ',
 );
 
 
 for my $original (@urls) {
-    my $url = URL::Shorten::GitHub->new();
+    my $url = URL::Shorten::Google->new();
     $url->url($original);
 
     my $short = $url->shorten;
