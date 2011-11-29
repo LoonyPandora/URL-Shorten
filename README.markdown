@@ -5,9 +5,9 @@ Add support for the following URL Shortners where possible:
 
 Minimum required for launch:
 
-- Bit.ly
-- Goo.gl
-- Metamark (xrl.us)
+- Bit.ly (DONE)
+- Goo.gl (DONE)
+- Metamark (xrl.us) (DONE)
 - Git.io (DONE)
 - Tiny Arrows (DONE)
 - TinyURL (DONE)

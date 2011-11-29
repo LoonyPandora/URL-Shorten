@@ -61,7 +61,6 @@ sub _accepted_domain {
 
     # Could use smart match, but want compatibility <v5.10
     croak "Invalid host specified" unless grep $_ eq $domain, @accepted_domains;
-
 }
 
 
