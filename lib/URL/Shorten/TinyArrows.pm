@@ -27,16 +27,14 @@ sub shorten {
     # Their API has naive query string parsing, is only accessible over GET,
     # and the order of the parameters is significant.
     # Therefore we have to manually build the query string like this.
-    my @query_string;
-    push (@query_string, 'utfpure=1');
-    push (@query_string, 'host='.$self->host) if $self->host;
-    push (@query_string, 'suggest='.$self->suggest) if $self->suggest;
-    push (@query_string, 'url='.$self->url->as_string);
+    my $endpoint = URI->new('http://tinyarro.ws/api-create.php');
+    $endpoint->query_form({ utfpure => 1 });
+    $endpoint->query_form({ host    => $self->host })            if $self->host;
+    $endpoint->query_form({ suggest => $self->suggest })         if $self->suggest;
+    $endpoint->query_form({ url     => $self->url->as_string });
 
     $self->response(
-        $self->ua->get('http://tinyarro.ws/api-create.php?'.
-            join('&', @query_string)
-        )
+        $self->ua->get($endpoint)
     );
 
     if ($self->response->is_success && $self->response->content !~ /^Error/) {
