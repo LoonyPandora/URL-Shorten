@@ -12,7 +12,7 @@ Minimum required for launch:
 - Tiny Arrows (DONE)
 - TinyURL (DONE)
 
-Should be there for launch (require API key methods)
+Should be there for launch (I need to sign up for their API)
 
 - awe.sm
 - Ow.ly
@@ -20,7 +20,6 @@ Should be there for launch (require API key methods)
 
 Some maybes that we should have
 
-- Deck.ly
 - Su.pr
 - fur.ly
 - moourl.com
