@@ -13,19 +13,21 @@ with 'URL::Shorten';
 
 
 has apikey => (
-    is  => 'rw',
-    isa => \&_valid_api_key,
+    is       => 'rw',
+    isa      => \&_valid_api_key,
+    required => 1,
 );
 
 has login => (
-    is  => 'rw',
-    isa => \&_valid_login,
+    is       => 'rw',
+    isa      => \&_valid_login,
+    required => 1,
 );
 
 has domain => (
-    is      => 'rw',
-    isa     => \&_accepted_domain,
-    default => sub { 'bit.ly' },
+    is       => 'rw',
+    isa      => \&_accepted_domain,
+    default  => sub { 'bit.ly' },
 );
 
 
