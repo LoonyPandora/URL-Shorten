@@ -7,6 +7,8 @@ use strict;
 
 use Moo;
 use Carp;
+use URI;
+use URI::QueryParam;
 
 with 'URL::Shorten';
 
@@ -24,14 +26,12 @@ has suggest => (
 sub shorten {
     my $self = shift;
 
-    # Their API has naive query string parsing, is only accessible over GET,
-    # and the order of the parameters is significant.
-    # Therefore we have to manually build the query string like this.
+    # The order of params is important to this API
     my $endpoint = URI->new('http://tinyarro.ws/api-create.php');
-    $endpoint->query_form({ utfpure => 1 });
-    $endpoint->query_form({ host    => $self->host })            if $self->host;
-    $endpoint->query_form({ suggest => $self->suggest })         if $self->suggest;
-    $endpoint->query_form({ url     => $self->url->as_string });
+    $endpoint->query_param( utfpure => '1' );
+    $endpoint->query_param( host    => $self->host )            if $self->host;
+    $endpoint->query_param( suggest => $self->suggest )         if $self->suggest;
+    $endpoint->query_param( url     => $self->url->as_string );
 
     $self->response(
         $self->ua->get($endpoint)

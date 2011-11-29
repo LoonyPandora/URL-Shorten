@@ -7,8 +7,9 @@ use strict;
 
 use Moo;
 use Carp;
-use HTTP::Request;
 use JSON;
+use URI;
+use URI::QueryParam;
 
 with 'URL::Shorten';
 
@@ -24,7 +25,7 @@ sub shorten {
     # Google will most likely require the use of an API key when Goo.gl
     # exits from lab / beta status. Until then, it's optional
     my $endpoint = URI->new('https://www.googleapis.com/urlshortener/v1/url');
-    $endpoint->query_form({ key => $self->key }) if $self->key;
+    $endpoint->query_param( key => $self->key ) if $self->key;
 
     $self->response(
         $self->ua->post($endpoint,
