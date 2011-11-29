@@ -56,20 +56,29 @@ sub shorten {
 
 sub _valid_api_key {
     my $api_key = shift || croak 'No API key specified';
+
+    if ($api_key !~ /^[-\w]{34}$/) {
+        croak "API key provided doesn't appear valid. Given: $api_key";
+    }
 }
 
 sub _valid_login {
     my $login = shift || croak 'No Login specified';
+
+    if ($login !~ /^[-\w]+$/) {
+        croak "Login key provided doesn't appear valid. Given: $login";
+    }
 }
 
 sub _accepted_domain {
     my $domain = shift;
 
-    # List is current as of 2011-11-27. See: http://tinyarrows.com/info/api
+    # List is current as of 2011-11-27.
+    # See: http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/shorten
     my @accepted_domains = qw( bit.ly j.mp bitly.com );
 
     # Could use smart match, but want compatibility <v5.10
-    croak "Invalid host specified" unless grep $_ eq $domain, @accepted_domains;
+    croak "Invalid domain specified. Given: $domain" unless grep $_ eq $domain, @accepted_domains;
 }
 
 
