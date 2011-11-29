@@ -8,6 +8,7 @@ use strict;
 use Moo;
 use Carp;
 use JSON;
+use URI;
 
 with 'URL::Shorten';
 
@@ -46,7 +47,71 @@ sub shorten {
     if ($self->response->is_success) {
         my $content = decode_json $self->response->content;
 
+        # Bitly responds with a 200 OK even if there is an error
+        # And puts the REAL error code in the JSON.
+        if ($content->{status_code} != '200') {
+            return $self->url;
+        }
+
         return $content->{data}->{url};
+    }
+
+    return $self->url;
+}
+
+
+sub clicks {
+    my $self = shift;
+
+    my $endpoint = URI->new('http://api.bitly.com/v3/clicks');
+
+    $endpoint->query_form({
+        login    => $self->login,
+        apiKey   => $self->apikey,
+        shortUrl => $self->url->as_string,
+    });
+
+    $self->response(
+        $self->ua->get($endpoint)
+    );
+
+    if ($self->response->is_success) {
+        my $content = decode_json $self->response->content;
+
+        if ($content->{status_code} != '200') {
+            return undef;
+        }
+
+        return $content->{data}->{clicks};
+    }
+
+    return $self->url;
+}
+
+
+sub referrers {
+    my $self = shift;
+
+    my $endpoint = URI->new('http://api.bitly.com/v3/referrers');
+
+    $endpoint->query_form({
+        login    => $self->login,
+        apiKey   => $self->apikey,
+        shortUrl => $self->url->as_string,
+    });
+
+    $self->response(
+        $self->ua->get($endpoint)
+    );
+
+    if ($self->response->is_success) {
+        my $content = decode_json $self->response->content;
+
+        if ($content->{status_code} != '200') {
+            return undef;
+        }
+
+        return $content->{data}->{referrers};
     }
 
     return $self->url;
