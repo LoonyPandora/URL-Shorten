@@ -36,21 +36,36 @@ sub shorten {
         })
     );
 
-    if ($self->response->is_success) {
-        my $content = decode_json $self->response->content;
-
-        # Bitly responds with a 200 OK even if there is an error
-        # And puts the real error code in the JSON.
-        if ($content->{status_code} != '200') {
-            return $self->url;
-        }
-
-        return $content->{data}->{url};
+    if ($self->response->is_error) {
+        carp "Error shortening URL: " . $self->response->status_line;
+        carp "Returning original URL";
+        return $self->url;
     }
 
-    return $self->url;
+    my $content = decode_json $self->response->content;
+
+    # Bitly responds with a 200 OK if the HTTP request was successful but
+    # there was a problem shortening the link - putting an error in the JSON
+    if ($content->{status_code} != '200') {
+        carp "Error shortening URL: " . $content->{status_txt};
+        carp "Returning original URL";
+        return $self->url;
+    }
+
+    # Return just the URL. Use the shorten_api method to get the full response
+    return $content->{data}->{url};
 }
 
+
+
+sub shorten_api {
+    my $self = shift;
+
+    $self->_call_api_and_return('http://api.bitly.com/v3/shorten', {
+        longUrl => $self->url->as_string,
+        domain  => $self->domain,
+    });
+}
 
 sub expand {
     my $self = shift;
@@ -143,33 +158,26 @@ sub _call_api_and_return {
     $endpoint = URI->new($endpoint);
 
     $endpoint->query_form({
-        format  => $self->format,
-        login   => $self->login,
-        apiKey  => $self->apikey,
+        format => $self->format,
+        login  => $self->login,
+        apiKey => $self->apikey,
     });
 
-    # Add extra parameters specific to this endpoint
     for my $param (keys %$extra_params) {
-        $endpoint->query_param( $param => $extra_params->{$param}) ;
+        $endpoint->query_param( $param => $extra_params->{$param} );
     }
 
     $self->response(
         $self->ua->get($endpoint)
     );
 
-    if ($self->response->is_success) {
-        my $content = decode_json $self->response->content;
-
-        # Bitly responds with a 200 OK even if there is an error
-        # putting the real error code in the JSON.
-        if ($content->{status_code} != '200') {
-            return undef;
-        }
-
-        return $content->{data};
+    if ($self->response->is_error) {
+        croak "Error from Bitly API: " . $self->response->status_line;
     }
 
-    return $self->url;
+    my $content = decode_json $self->response->content;
+
+    return $content->{data};
 }
 
 
