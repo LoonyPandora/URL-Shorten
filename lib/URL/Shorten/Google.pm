@@ -1,15 +1,15 @@
 package URL::Shorten::Google;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using Google (goo.gl)
 
-use utf8;
 use strict;
 
 use Moo;
 use Carp;
 use JSON;
 use URI;
-use URI::QueryParam;
 
 with 'URL::Shorten';
 

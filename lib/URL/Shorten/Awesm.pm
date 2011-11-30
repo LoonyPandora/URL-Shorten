@@ -1,8 +1,9 @@
 package URL::Shorten::Awesm;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using Awe.sm
 
-use utf8;
 use strict;
 
 use Moo;

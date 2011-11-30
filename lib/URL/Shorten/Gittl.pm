@@ -1,8 +1,9 @@
 package URL::Shorten::Gittl;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using Git.tl
 
-use utf8;
 use strict;
 
 use Moo;

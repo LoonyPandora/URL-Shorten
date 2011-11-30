@@ -1,8 +1,9 @@
 package URL::Shorten::Bitly;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using Bit.ly
 
-use utf8;
 use strict;
 
 use Moo;

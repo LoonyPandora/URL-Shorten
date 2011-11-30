@@ -1,8 +1,9 @@
 package URL::Shorten::WordPress;
 
+use utf8;
+
 # ABSTRACT: Get long URLs from the WordPress shortener, wp.me
 
-use utf8;
 use strict;
 
 use Moo;

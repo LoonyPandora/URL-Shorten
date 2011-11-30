@@ -1,8 +1,9 @@
 package URL::Shorten::DaringFireball;
 
+use utf8;
+
 # ABSTRACT: Get long URLs from the Daring Fireball shortener, ✪df.ws
 
-use utf8;
 use strict;
 
 use Moo;

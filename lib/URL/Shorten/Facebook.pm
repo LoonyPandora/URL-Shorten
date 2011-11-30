@@ -1,8 +1,9 @@
 package URL::Shorten::Facebook;
 
+use utf8;
+
 # ABSTRACT: Get long URLs from the Facebook shortener, fb.me
 
-use utf8;
 use strict;
 
 use Moo;

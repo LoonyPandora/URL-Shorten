@@ -1,8 +1,9 @@
 package URL::Shorten::Metamark;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using Metamark (xrl.us) 
 
-use utf8;
 use strict;
 
 use Moo;

@@ -1,8 +1,9 @@
 package URL::Shorten::YouTube;
 
+use utf8;
+
 # ABSTRACT: Get long URLs from the YouTube shortener, youtu.be
 
-use utf8;
 use strict;
 
 use Moo;

@@ -1,8 +1,9 @@
 package URL::Shorten::TinyURL;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using TinyURL
 
-use utf8;
 use strict;
 
 use Moo;

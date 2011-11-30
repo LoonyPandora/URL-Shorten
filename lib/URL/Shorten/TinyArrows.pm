@@ -1,14 +1,14 @@
 package URL::Shorten::TinyArrows;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using TinyArrows 
 
-use utf8;
 use strict;
 
 use Moo;
 use Carp;
 use URI;
-use URI::QueryParam;
 
 with 'URL::Shorten';
 

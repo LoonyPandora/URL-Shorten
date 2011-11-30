@@ -1,8 +1,9 @@
 package URL::Shorten::Owly;
 
+use utf8;
+
 # ABSTRACT: Shorten URLs using ow.ly
 
-use utf8;
 use strict;
 
 use Moo;
