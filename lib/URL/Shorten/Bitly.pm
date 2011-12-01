@@ -10,6 +10,7 @@ use Moo;
 use Carp;
 use JSON;
 use URI;
+use URI::QueryParam;
 
 with 'URL::Shorten';
 
@@ -17,8 +18,8 @@ with 'URL::Shorten';
 has apikey   => ( is => 'rw', isa => \&_valid_api_key,   required => 1 );
 has login    => ( is => 'rw', isa => \&_valid_login,     required => 1 );
 has domain   => ( is => 'rw', isa => \&_accepted_domain, default  => sub { 'bit.ly' } );
-has days     => ( is => 'rw', isa => \&_valid_day,       default  => sub { 7; }       );
-has format   => ( is => 'ro', isa => \&_valid_format,    default  => sub { 'json'; }  );
+has days     => ( is => 'rw', isa => \&_valid_day,       default  => sub { 7 }        );
+has format   => ( is => 'ro', isa => \&_valid_format,    default  => sub { 'json' }   );
 has hash     => ( is => 'rw', isa => \&_valid_hash    );
 has x_apikey => ( is => 'rw', isa => \&_valid_api_key );
 has x_login  => ( is => 'rw', isa => \&_valid_login   );
