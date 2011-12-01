@@ -1,10 +1,16 @@
-use Test::More tests => 5;
+use Test::More;
 
 use utf8;
 use strict;
 use warnings;
 
 use URL::Shorten::Google;
+
+
+plan skip_all => "Env GOOGLE_API_KEY required to run google tests"
+    unless $ENV{GOOGLE_API_KEY};
+
+plan tests => 5;
 
 
 my $long_urls = {
@@ -28,7 +34,7 @@ for my $url_type (keys %$long_urls) {
     is(
         URL::Shorten::Google->new({
             url => $long_urls->{$url_type},
-            key => ''
+            key => $ENV{GOOGLE_API_KEY}
         })->shorten,
         $short_urls->{$url_type},
         "$url_type"
