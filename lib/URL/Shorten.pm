@@ -14,30 +14,18 @@ use Carp;
 
 use Exporter;
 
-our @EXPORT_OK = qw(makeashorterlink makealongerlink);
 our $VERSION = '0.1.0';
 
 
-has url => (
-    is     => 'rw',
-    coerce => \&_into_url,
-    isa    => \&_url,
-);
-
-has ua => (
-    is      => 'ro',
-    default => \&_ua,
-);
-
-has response => (
-    is => 'rw',
-);
+has url      => ( is => 'rw', coerce  => \&_into_url, isa => \&_url );
+has ua       => ( is => 'ro', default => \&_ua, );
+has response => ( is => 'rw' );
 
 
 
-sub shorten { croak 'Use the subclass directly.'; }
-
-
+sub shorten {
+    croak 'Use a subclass of this module to shorten URLs';
+}
 
 
 sub unshorten {
@@ -47,28 +35,11 @@ sub unshorten {
         $self->ua->get($self->url->as_string)
     );
 
-    # TODO: the redirect can be relative. Get a Base URL from somewhere
     if ($self->response->is_redirect) {
         return $self->response->header('Location');
     }
 
     return $self->url;
-}
-
-
-
-
-# Aliases for compatiblity with WWW::Shorten
-sub makeashorterlink {
-    return URL::Shorten->new({
-        url => shift,
-    })->shorten;
-}
-
-sub makealongerlink {
-    return URL::Shorten->new({
-        url => shift,
-    })->unshorten;
 }
 
 
