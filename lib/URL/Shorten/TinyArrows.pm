@@ -9,6 +9,7 @@ use strict;
 use Moo;
 use Carp;
 use URI;
+use URI::QueryParam;
 
 with 'URL::Shorten';
 
