@@ -11,6 +11,8 @@ Minimum required for launch:
 - Git.io (DONE)
 - Tiny Arrows (DONE)
 - TinyURL (DONE)
+- is.gd (TODO - http://is.gd/developers.php)
+
 
 Should be there for launch (I need to sign up for their API)
 
