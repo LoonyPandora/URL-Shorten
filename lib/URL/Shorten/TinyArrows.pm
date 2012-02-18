@@ -14,14 +14,8 @@ use URI::QueryParam;
 with 'URL::Shorten';
 
 
-has host => (
-    is  => 'rw',
-    isa => \&_accepted_domain,
-);
-
-has suggest => (
-    is => 'rw',
-);
+has host    => ( is => 'rw', isa => \&_accepted_domain );
+has suggest => ( is => 'rw' );
 
 
 sub shorten {
@@ -37,12 +31,14 @@ sub shorten {
     $self->response(
         $self->ua->get($endpoint)
     );
-
-    if ($self->response->is_success && $self->response->content !~ /^Error/) {
-        return $self->response->content;
+    
+    # API always returns a 200 OK status, even when there is an error
+    # It can also return 200 OK with blank content if it has an internal error
+    if ($self->response->content !~ /^Error/ || !$self->response->content) {
+        croak "Error from TinyArrows API: " . $self->response->status_line;
     }
 
-    return $self->url;
+    return $self->response->content;
 }
 
 

@@ -39,9 +39,7 @@ sub shorten {
     );
 
     if ($self->response->is_error) {
-        carp "Error shortening URL: " . $self->response->status_line;
-        carp "Returning original URL";
-        return $self->url;
+        croak "Error from Bitly API: " . $self->response->status_line;
     }
 
     my $content = decode_json $self->response->content;
@@ -49,9 +47,7 @@ sub shorten {
     # Bitly responds with a 200 OK if the HTTP request was successful but
     # there was a problem shortening the link - putting an error in the JSON
     if ($content->{status_code} != '200') {
-        carp "Error shortening URL: " . $content->{status_txt};
-        carp "Returning original URL";
-        return $self->url;
+        croak "Error shortening URL: " . $content->{status_txt};
     }
 
     # Return just the URL. Use the shorten_api method to get the full response
