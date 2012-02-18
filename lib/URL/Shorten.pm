@@ -35,8 +35,8 @@ sub unshorten {
         $self->ua->get($self->url->as_string)
     );
 
-    if ($self->response->is_redirect) {
-        return $self->response->header('Location');
+    if ($self->response->is_redirect) {    
+        $self->url( $self->response->header('Location') );
     }
 
     return $self->url;
